@@ -31,15 +31,15 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-3 col-md-3 debug">
-        <h4>Simple editor for controlling one or more 8x8 matrices using the MD_MAX72XX library.</h4>
+        <h4><a href="#" style="color: inherit;">Simple editor for controlling one or more 8x8 matrices using the MD_MAX72XX library.</a></h4>
         Inspired by <a href="https://xantorohara.github.io/led-matrix-editor/"><i>LED Matrix Editor</i></a>.
         <br><br>
         The number of matrices down below are the number of matrices you are going to use. Insert more if needed.
         The name of the matrix will be <code>mx</code>.
         <br><br>
-        Sample code (for 3 matrices): <button class="buton1" onclick="document.getElementById('Cod').scrollIntoView();"><i class="fas fa-angle-right"></i> Here</button><br>
+        Sample code (for 3 matrices): <button class="buton1" onclick="document.getElementById('Cod').scrollIntoView();"><i class="fas fa-angle-right"></i> Here</button>
         <br><br>
-        See my other projects: <a href="https://github.com/sabinM1" class="fab fa-github"><span class="label" style="color: black;">sabinM1.</span></a>
+        See my other projects: <a href="https://github.com/sabinM1" class="fab fa-github" style="color: inherit"><span style="color: inherit"> sabinM1</span></a>.
 
       </div>
       <div class="col-xs-6 col-md-3 col-md-push-6 debug">
@@ -140,223 +140,54 @@
 
 // Initialization
 #define HARDWARE_TYPE MD_MAX72XX::GENERIC_HW
-#define MAX_DEVICES 15
+#define MAX_DEVICES 15 //this example is using only 6
 #define CS_PIN 4
 #define DATA_PIN 5
 #define CLK_PIN 18
 MD_MAX72XX mx = MD_MAX72XX(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, MAX_DEVICES);
 
+//Call with "set_matrix()":
+void set_matrix(){
+ int a[6][8] = {
+  {1110, 10010, 100010, 100010, 10010, 100010, 100010, 11110},
+  {10011001, 10011001, 10000001, 1000010, 1000010, 1100110, 100100, 111100},
+  {11111111, 10000001, 10010101, 10100001, 10100001, 10010101, 10000001, 11111111},
+  {11111111, 10000001, 10010101, 10100001, 10100001, 10010101, 10000001, 11111111},
+  {11111111, 10000001, 10010101, 10100001, 10100001, 10010101, 10000001, 11111111},
+  {11111111, 10000001, 10010101, 10100001, 10100001, 10010101, 10000001, 11111111}
+ };
+
+ for (int i=0; i<6; i++){
+   for (int j=0; j<8; j++){
+    for (int k=8+8*i-1; k>8*i-1; k--){
+     mx.setPoint(j, k, a[i][j]%10);
+     a[i][j]/=10;
+   }
+  }
+ }
+}
+
 void setup() {
   // Intialize the object
   mx.begin();
-
   // Set the intensity (brightness) of the display (0-15)
   mx.control(MD_MAX72XX::INTENSITY, 7);
-
   // Clear the display
   mx.clear();
-
+  // Set the matrix to the patterns
+  set_matrix();
 }
-//Call with "set_matrix()":
-void set_matrix(){
-mx.setPoint(0, 0, 1);
-mx.setPoint(0, 1, 0);
-mx.setPoint(0, 2, 0);
-mx.setPoint(0, 3, 0);
-mx.setPoint(0, 4, 0);
-mx.setPoint(0, 5, 0);
-mx.setPoint(0, 6, 0);
-mx.setPoint(0, 7, 0);
-mx.setPoint(1, 0, 0);
-mx.setPoint(1, 1, 1);
-mx.setPoint(1, 2, 0);
-mx.setPoint(1, 3, 0);
-mx.setPoint(1, 4, 0);
-mx.setPoint(1, 5, 0);
-mx.setPoint(1, 6, 0);
-mx.setPoint(1, 7, 0);
-mx.setPoint(2, 0, 0);
-mx.setPoint(2, 1, 0);
-mx.setPoint(2, 2, 1);
-mx.setPoint(2, 3, 0);
-mx.setPoint(2, 4, 0);
-mx.setPoint(2, 5, 0);
-mx.setPoint(2, 6, 0);
-mx.setPoint(2, 7, 0);
-mx.setPoint(3, 0, 0);
-mx.setPoint(3, 1, 0);
-mx.setPoint(3, 2, 0);
-mx.setPoint(3, 3, 1);
-mx.setPoint(3, 4, 0);
-mx.setPoint(3, 5, 0);
-mx.setPoint(3, 6, 0);
-mx.setPoint(3, 7, 0);
-mx.setPoint(4, 0, 0);
-mx.setPoint(4, 1, 0);
-mx.setPoint(4, 2, 0);
-mx.setPoint(4, 3, 0);
-mx.setPoint(4, 4, 1);
-mx.setPoint(4, 5, 0);
-mx.setPoint(4, 6, 0);
-mx.setPoint(4, 7, 0);
-mx.setPoint(5, 0, 0);
-mx.setPoint(5, 1, 0);
-mx.setPoint(5, 2, 0);
-mx.setPoint(5, 3, 0);
-mx.setPoint(5, 4, 0);
-mx.setPoint(5, 5, 1);
-mx.setPoint(5, 6, 0);
-mx.setPoint(5, 7, 0);
-mx.setPoint(6, 0, 0);
-mx.setPoint(6, 1, 0);
-mx.setPoint(6, 2, 0);
-mx.setPoint(6, 3, 0);
-mx.setPoint(6, 4, 0);
-mx.setPoint(6, 5, 0);
-mx.setPoint(6, 6, 1);
-mx.setPoint(6, 7, 0);
-mx.setPoint(7, 0, 0);
-mx.setPoint(7, 1, 0);
-mx.setPoint(7, 2, 0);
-mx.setPoint(7, 3, 0);
-mx.setPoint(7, 4, 0);
-mx.setPoint(7, 5, 0);
-mx.setPoint(7, 6, 0);
-mx.setPoint(7, 7, 1);
-mx.setPoint(0, 8, 0);
-mx.setPoint(0, 9, 0);
-mx.setPoint(0, 10, 0);
-mx.setPoint(0, 11, 0);
-mx.setPoint(0, 12, 0);
-mx.setPoint(0, 13, 0);
-mx.setPoint(0, 14, 0);
-mx.setPoint(0, 15, 0);
-mx.setPoint(1, 8, 0);
-mx.setPoint(1, 9, 0);
-mx.setPoint(1, 10, 0);
-mx.setPoint(1, 11, 0);
-mx.setPoint(1, 12, 0);
-mx.setPoint(1, 13, 0);
-mx.setPoint(1, 14, 0);
-mx.setPoint(1, 15, 0);
-mx.setPoint(2, 8, 0);
-mx.setPoint(2, 9, 0);
-mx.setPoint(2, 10, 0);
-mx.setPoint(2, 11, 0);
-mx.setPoint(2, 12, 0);
-mx.setPoint(2, 13, 0);
-mx.setPoint(2, 14, 0);
-mx.setPoint(2, 15, 0);
-mx.setPoint(3, 8, 0);
-mx.setPoint(3, 9, 0);
-mx.setPoint(3, 10, 0);
-mx.setPoint(3, 11, 0);
-mx.setPoint(3, 12, 1);
-mx.setPoint(3, 13, 1);
-mx.setPoint(3, 14, 0);
-mx.setPoint(3, 15, 0);
-mx.setPoint(4, 8, 0);
-mx.setPoint(4, 9, 0);
-mx.setPoint(4, 10, 0);
-mx.setPoint(4, 11, 1);
-mx.setPoint(4, 12, 0);
-mx.setPoint(4, 13, 0);
-mx.setPoint(4, 14, 1);
-mx.setPoint(4, 15, 0);
-mx.setPoint(5, 8, 0);
-mx.setPoint(5, 9, 0);
-mx.setPoint(5, 10, 1);
-mx.setPoint(5, 11, 0);
-mx.setPoint(5, 12, 0);
-mx.setPoint(5, 13, 0);
-mx.setPoint(5, 14, 0);
-mx.setPoint(5, 15, 1);
-mx.setPoint(6, 8, 0);
-mx.setPoint(6, 9, 1);
-mx.setPoint(6, 10, 0);
-mx.setPoint(6, 11, 0);
-mx.setPoint(6, 12, 0);
-mx.setPoint(6, 13, 0);
-mx.setPoint(6, 14, 0);
-mx.setPoint(6, 15, 0);
-mx.setPoint(7, 8, 1);
-mx.setPoint(7, 9, 0);
-mx.setPoint(7, 10, 0);
-mx.setPoint(7, 11, 0);
-mx.setPoint(7, 12, 0);
-mx.setPoint(7, 13, 0);
-mx.setPoint(7, 14, 0);
-mx.setPoint(7, 15, 0);
-mx.setPoint(0, 16, 0);
-mx.setPoint(0, 17, 0);
-mx.setPoint(0, 18, 0);
-mx.setPoint(0, 19, 0);
-mx.setPoint(0, 20, 0);
-mx.setPoint(0, 21, 0);
-mx.setPoint(0, 22, 0);
-mx.setPoint(0, 23, 0);
-mx.setPoint(1, 16, 0);
-mx.setPoint(1, 17, 0);
-mx.setPoint(1, 18, 0);
-mx.setPoint(1, 19, 0);
-mx.setPoint(1, 20, 0);
-mx.setPoint(1, 21, 0);
-mx.setPoint(1, 22, 0);
-mx.setPoint(1, 23, 0);
-mx.setPoint(2, 16, 0);
-mx.setPoint(2, 17, 0);
-mx.setPoint(2, 18, 0);
-mx.setPoint(2, 19, 0);
-mx.setPoint(2, 20, 0);
-mx.setPoint(2, 21, 0);
-mx.setPoint(2, 22, 0);
-mx.setPoint(2, 23, 0);
-mx.setPoint(3, 16, 0);
-mx.setPoint(3, 17, 0);
-mx.setPoint(3, 18, 0);
-mx.setPoint(3, 19, 0);
-mx.setPoint(3, 20, 0);
-mx.setPoint(3, 21, 0);
-mx.setPoint(3, 22, 0);
-mx.setPoint(3, 23, 0);
-mx.setPoint(4, 16, 0);
-mx.setPoint(4, 17, 0);
-mx.setPoint(4, 18, 0);
-mx.setPoint(4, 19, 0);
-mx.setPoint(4, 20, 0);
-mx.setPoint(4, 21, 0);
-mx.setPoint(4, 22, 0);
-mx.setPoint(4, 23, 0);
-mx.setPoint(5, 16, 0);
-mx.setPoint(5, 17, 0);
-mx.setPoint(5, 18, 0);
-mx.setPoint(5, 19, 0);
-mx.setPoint(5, 20, 0);
-mx.setPoint(5, 21, 0);
-mx.setPoint(5, 22, 0);
-mx.setPoint(5, 23, 0);
-mx.setPoint(6, 16, 1);
-mx.setPoint(6, 17, 0);
-mx.setPoint(6, 18, 0);
-mx.setPoint(6, 19, 0);
-mx.setPoint(6, 20, 0);
-mx.setPoint(6, 21, 0);
-mx.setPoint(6, 22, 0);
-mx.setPoint(6, 23, 0);
-mx.setPoint(7, 16, 0);
-mx.setPoint(7, 17, 1);
-mx.setPoint(7, 18, 1);
-mx.setPoint(7, 19, 1);
-mx.setPoint(7, 20, 1);
-mx.setPoint(7, 21, 1);
-mx.setPoint(7, 22, 1);
-mx.setPoint(7, 23, 1);
-}
-
 void loop() {
-set_matrix();
 }
 </pre>
+      <div class="box">
+        <p style="text-align:center;">
+          <img src="./img/example.jpg" alt="" style="width: 1000px; height: 239px;" />
+        </p>
+        <br><br>
+        <p style="text-align:center;"> <a href="https://github.com/sabinM1" style="color: inherit">Made with <span style="color: red">❤</span> by <span style="color: red">Maxim Sabin</span> </a> </p>
+      </div>
+      <!-- <p style="text-align:center;"><img src="./img/example.jpg" alt=""></p> -->
     </div>
   </div>
 

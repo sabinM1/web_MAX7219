@@ -134,67 +134,33 @@ $(function() {
     patternsToCodeUint64Array: function(patterns) { //ignore function name
 
       // var count = patterns.length;
-      var out = ['//Call with "set_matrix()":\nvoid set_matrix(){\n'];
+      var out = ['//Call with "set_matrix()":\nvoid set_matrix(){\n int a['];
+      out.push(patterns.length);
+      out.push('][8] = {');
       for (var i = 0; i < patterns.length; i++) {
         // for (var j = 0; j< 8; j++){
+        out.push('\n  {');
         for (var j=7; j>=0; j--){
             var byte = patterns[i].substr(2 * j, 2);
             byte = parseInt(byte, 16).toString(2);
             byte = (byte).substr(-8);
-            // byte = byte.split('').reverse().join('');
-            // byte = parseInt(byte, 16);
-            // out.push((+byte)*(25-3)+2);
-            // byte = +byte;
-            // if (byte!=0)
-            // while (byte<10000000)
-            // byte = byte*10;
-
-            // for (var k = 7; k >= 0; k--) {
-            for (var k = 0; k< 8; k++){
-              // out.push('byte = ');
-              // out.push(byte);
-              // out.push('\n');
-              var prelucrat = byte%10;
-              byte=byte/10-(byte%10)/10;
-              out.push('mx.setPoint(');
-              out.push(7-j);
-              out.push(', ');
-              out.push(k+(i)*8);
-              out.push(', ');
-              out.push(prelucrat);
-              out.push(');\n');
-          }
+          if (j==0)
+            out.push(byte);
+          else
+          {
+          out.push(byte);
+          out.push(', ');
         }
-        // out.pop();
-        // out.push('\n}');
-        // out.push(',');
-
-        // out.push('\n\n');
-        // out.push(count);
-        // out.push('\n\n');
       }
-      // out.pop();
-      // out.push('};\n');
-      // out.push('\n\n');
-      // out.push(patterns.length);
+      if (i!=patterns.length-1)
+      out.push('},');
+      else
       out.push('}');
+      }
+      out.push('\n };\n\n for (int i=0; i<');
+      out.push(patterns.length);
+      out.push('; i++){\n   for (int j=0; j<8; j++){\n    for (int k=8+8*i-1; k>8*i-1; k--){\n     mx.setPoint(j, k, a[i][j]%10);\n     a[i][j]/=10;\n   }\n  }\n }\n}\n');
       return out.join('');
-
-
-
-
-      // var out = ['const uint64_t IMAGES[] = {\n'];
-      //
-      // for (var i = 0; i < patterns.length; i++) {
-      //     out.push('  0x');
-      //     out.push(patterns[i]);
-      //     out.push(',\n');
-      // }
-      // out.pop();
-      // out.push('\n};\n');
-      // out.push('const int IMAGES_LEN = sizeof(IMAGES)/8;\n');
-      //
-      // return out.join('');
     },
     fixPattern: function(pattern) {
       pattern = pattern.replace(/[^0-9a-fA-F]/g, '0');
